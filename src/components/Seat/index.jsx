@@ -25,7 +25,6 @@ export default function Seat(props) {
 
 
     const number = Number.parseFloat(name) / 10;
-    console.log(isAvailable)
 
     return (
 
@@ -37,7 +36,7 @@ export default function Seat(props) {
                 if (isAvailable) {
                     callback(id)
                     setSelecionado(true);
-                }
+                } else alert("assento indisponível")
             }
             }
         >

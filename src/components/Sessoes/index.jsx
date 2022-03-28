@@ -30,7 +30,7 @@ export default function Sessoes() {
             <h1>Selecione o horário</h1>
             {sessionDays === "" ? <></> : sessionDays.map((day) => <Sessao key={day.id} weekday={day.weekday} date={day.date} showtimes={day.showtimes} />)}    
             <div className="margin"></div>
-            <Footer posterURL={sessoes.posterURL} title={sessoes.title} weekday={sessoes.weekday} />
+            <Footer posterURL={sessoes.posterURL} title={sessoes.title} weekday={""} />
         </ListaDeSessoes>
     )
 }

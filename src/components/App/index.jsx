@@ -6,6 +6,7 @@ import Header from '../Header';
 import Filmes from '../Filmes';
 import Sessoes from '../Sessoes'
 import Assentos from '../Assentos';
+import Sucesso from '../Sucesso';
 
 export default function App() {
     return (
@@ -17,7 +18,7 @@ export default function App() {
                     <Route path='/' element={<Filmes />} />
                     <Route path='/sessoes/:idFilme' element={<Sessoes />} />
                     <Route path='/assentos/:idSessao' element={<Assentos />} />
-                    Teste Supremo De Inicio
+                    <Route path='/sucesso' element={<Sucesso/>} />
                 </Routes>
             </BrowserRouter>
         </Aplication>

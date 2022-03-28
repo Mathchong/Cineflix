@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -13,10 +13,8 @@ export default function Assentos() {
     const [cpf, setCPF] = useState('');
     const [selecionados, setSelecionados] = useState([]);
 
-
     const responseFromAPI = assentos.length === 0 ? false : true
     const assentosDaSessao = assentos.length === 0 ? "" : assentos.seats
-
 
     const loading = `https://www.kaindl.com/fileadmin/_processed_/d/8/csm_2162_PE_Dekorbild_0ec3e17e00.jpg`
 
@@ -24,6 +22,8 @@ export default function Assentos() {
     const sessionSeats = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`
 
     const regexCPF = /^\d{11}$/m;
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const promise = axios.get(sessionSeats);
@@ -41,6 +41,19 @@ export default function Assentos() {
             alert("O CPF somente deve conter numeros!")
             return;
         }
+        const postURL = "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many"
+        const postObject = {ids:selecionados, name: nome, cpf: cpf}
+        console.log(postObject)
+
+        const promise2 = axios.post(postURL,postObject)
+        promise2.then((response) => {
+            console.log(response)
+            if(response.data === 'OK!'){
+                setNome('')
+                setCPF('')
+                navigate('/sucesso', {info: 'blabla'})
+            }
+        })
     }
 
     return (
@@ -54,17 +67,19 @@ export default function Assentos() {
                         name={assento.name}
                         isAvailable={assento.isAvailable}
                         callback={(id) => {
-                           const returnedIndex = selecionados.indexOf(id)
-                            if ( returnedIndex === -1) {
-                                setSelecionados(selecionados.push(id))
+                            const returnedIndex = selecionados.indexOf(id)
+                            console.log(returnedIndex);
+                            if (returnedIndex === -1) {
+                                setSelecionados([...selecionados,id])
                                 console.log('adicionei um id')
                                 console.log(selecionados)
                             }
                             else {
+                                console.log(selecionados.splice(returnedIndex,1))
                                 setSelecionados(selecionados.splice(returnedIndex, 1))
+                                console.log(selecionados)
                                 console.log('removi um id')
                             }
-                            
                         }}
                     ></Seat>
                 })) : <></>}
