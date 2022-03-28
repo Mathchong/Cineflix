@@ -1,7 +1,29 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 export default function Seat(props) {
+    const [backgroundColor, setBackgroundColor] = useState([]);
+    const [borderColor, setBorderColor] = useState([]);
+    const [selecionado, setSelecionado] = useState(false);
+
     const { name, isAvailable, id, callback } = props;
+
+    useEffect(() => {
+        if (isAvailable) {
+            if (selecionado) {
+                setBackgroundColor('#8DD7CF')
+                setBorderColor('#1AAE9E')
+            } else
+
+            setBackgroundColor('#C3CFD9')
+            setBorderColor('#808F9D')
+        } else {
+            setBackgroundColor('#FBE192')
+            setBorderColor('#F7C52B')
+        }
+    }, [selecionado])
+
+
     const number = Number.parseFloat(name) / 10;
     console.log(isAvailable)
 
@@ -9,12 +31,12 @@ export default function Seat(props) {
 
         <SeatIcon
             marginRight={number === Math.floor(number) ? 0 : 7}
-            background={isAvailable ? '#C3CFD9' : '#FBE192'}
-            border={isAvailable ? '#808F9D' : '#F7C52B'}
+            background={backgroundColor}
+            border={borderColor}
             onClick={() => {
-                if (!isAvailable) {
+                if (isAvailable) {
                     callback(id)
-
+                    setSelecionado(true);
                 }
             }
             }

@@ -54,12 +54,14 @@ export default function Assentos() {
                         name={assento.name}
                         isAvailable={assento.isAvailable}
                         callback={(id) => {
-                            if (selecionados.indexOf(id) === -1) {
+                           const returnedIndex = selecionados.indexOf(id)
+                            if ( returnedIndex === -1) {
                                 setSelecionados(selecionados.push(id))
                                 console.log('adicionei um id')
+                                console.log(selecionados)
                             }
                             else {
-                                setSelecionados(selecionados.splice(selecionados.indexOf(id), 1))
+                                setSelecionados(selecionados.splice(returnedIndex, 1))
                                 console.log('removi um id')
                             }
                             
